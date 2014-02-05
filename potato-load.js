@@ -1,6 +1,5 @@
-(function() {
-
-  var isElementInViewport (el) {
+(function(window) {
+  var isElementInViewport = function(el) {
     var rect = el.getBoundingClientRect();
     return (
       rect.top >= 0 &&
@@ -10,25 +9,32 @@
     );
   }
 
-  // Replace images if they are in viewport
-  var check = function($elmts) {
-    $elmts.each(function(idx, el) {
-      if (isElementInViewport(el)) {
-        var $el = $(el);
-        $el.attr('src', $el.data('src'));
-      }
-    });
-  }
-
-  $.fn.potatoload = function() {
-      
-      // Attach to scroll events
-      $(window).scroll(check.bind(this, this));
-      
-      // Load initial images
-      check(this);
-      
-      // Chaining
-      return this;
+  var check = function(el) {
+    if (isElementInViewport(el)) {
+      el.setAttribute('src', el.getAttribute('data-src'));
+    }
   };
-})();
+
+  window.potatoload = function(selector) {
+
+    // Get DOM objects
+    var elements = Array.prototype.slice.call(document.querySelectorAll(selector));
+
+    // Save previous scroll fn
+    this.scrollFns = window.onscroll ? [window.onscroll] : [];
+
+    // Attach to scroll events
+    elements.forEach(function(el, idx) {
+      scrollFns.push(check.bind(this, el));
+      check(el); // show images on init
+    });
+
+    // Invoke series of scrolling fns
+    window.onscroll = function() {
+      this.scrollFns.forEach(function(fn) {
+        fn();
+      });
+    };
+
+  };
+})(window);
