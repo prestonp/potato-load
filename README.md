@@ -12,7 +12,7 @@ bower install potato-load
 Then include *potato-script.js*
 
 ```
-<script src="/dist/app.js"></script>
+<script src="potato-script.js"></script>
 ```
 
 __Usage__
