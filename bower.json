@@ -1,0 +1,22 @@
+{
+  "name": "potato-load",
+  "main": "potato-load.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/prestonp/potato-load",
+  "authors": [
+    "Preston Pham <prestonp08@gmail.com>"
+  ],
+  "description": "lazy load images plugin",
+  "keywords": [
+    "lazy",
+    "load"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
