@@ -1,13 +1,14 @@
 (function(window) {
-  var isElementInViewport = function(el) {
+  var isElementInViewport= function(el) {
     var rect = el.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
+
+    return !(
+      rect.left > (window.innerWidth || document.documentElement.clientWidth) ||
+      rect.right < 0 ||
+      rect.top > (window.innerHeight || document.documentElement.clientHeight) ||
+      rect.bottom < 0
     );
-  }
+  };
 
   var check = function(el) {
     if (isElementInViewport(el)) {
