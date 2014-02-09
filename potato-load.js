@@ -16,26 +16,48 @@
     }
   };
 
-  window.potatoload = function(selector) {
+  // copied from underscore
+  var debounce = function(func, wait, options) {
+    var context, args, result;
+    var timeout = null;
+    var previous = 0;
+    options || (options = {});
+    var later = function() {
+      previous = options.leading === false ? 0 : new Date;
+      timeout = null;
+      result = func.apply(context, args);
+    };
+    return function() {
+      var now = new Date;
+      if (!previous && options.leading === false) previous = now;
+      var remaining = wait - (now - previous);
+      context = this;
+      args = arguments;
+      if (remaining <= 0) {
+        clearTimeout(timeout);
+        timeout = null;
+        previous = now;
+        result = func.apply(context, args);
+      } else if (!timeout && options.trailing !== false) {
+        timeout = setTimeout(later, remaining);
+      }
+      return result;
+    };
+  };
 
+  window.potatoload = function(selector) {
+    
     // Get DOM objects
     var elements = Array.prototype.slice.call(document.querySelectorAll(selector));
 
-    // Save previous scroll fn
-    this.scrollFns = window.onscroll ? [window.onscroll] : [];
-
-    // Attach to scroll events
+    // Check on scroll and visible imgs on load
     elements.forEach(function(el, idx) {
-      scrollFns.push(check.bind(this, el));
-      check(el); // show images on init
+
+      // debounce so we don't check intersections for every pixel scrolled
+      window.addEventListener('scroll', debounce(check.bind(this, el), 100)); 
+      check(el);
     });
 
-    // Invoke series of scrolling fns
-    window.onscroll = function() {
-      this.scrollFns.forEach(function(fn) {
-        fn();
-      });
-    };
-
   };
+
 })(window);
