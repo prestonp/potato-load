@@ -1,7 +1,7 @@
 {
   "name": "potato-load",
   "main": "potato-load.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/prestonp/potato-load",
   "authors": [
     "Preston Pham <prestonp08@gmail.com>"
